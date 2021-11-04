@@ -76,7 +76,7 @@ class Storage:
         return room_id in self.rooms
 
     def join_room(self, user, id):
-        if not self.room_exists(id) or self.user_in_room(user):
+        if not self.room_exists(id):
             return False
  
         joined_successfully = self.rooms[id].add_player(user)
