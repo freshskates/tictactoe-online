@@ -65,7 +65,7 @@ class Storage:
         self.save()
 
     def create_room(self, user, id):
-        if not self.user_exists(user) or self.user_in_room(user):
+        if not self.user_exists(user):
             print("error creating a room")
             return {"error": f"Could not create a room for {user}"}
         
