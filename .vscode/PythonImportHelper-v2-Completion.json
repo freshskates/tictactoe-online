@@ -528,7 +528,7 @@
         "kind": 6,
         "importPath": "client.src.game.tictactoe",
         "description": "client.src.game.tictactoe",
-        "peekOfCode": "class TicTacToe:\n    LINE_COLOR = (23, 145, 135)\n    def __init__(self, screen, player_name, id=None):\n        # 12323\n        self.id = id or get_random_string(5)\n        self.username = player_name\n        self.sio = socketio.Client()\n        self.setup()\n        self.screen = screen\n        self.rows = 3",
+        "peekOfCode": "class TicTacToe:\n    LINE_COLOR = (23, 145, 135)\n    def __init__(self, screen, player_name, id=None):\n        # 12323\n        self.id = id or get_random_string(5)\n        self.username = player_name\n        self.sio = socketio.Client()\n        self.turn = False # will be changed when the game starts\n        self.setup()\n        self.screen = screen",
         "detail": "client.src.game.tictactoe",
         "documentation": {}
     },
@@ -771,7 +771,7 @@
         "kind": 2,
         "importPath": "server.application",
         "description": "server.application",
-        "peekOfCode": "def home_page():\n    return jsonify({\"success\": \"HELLO CLASS\"})\n@socketio.on(\"move\")\ndef handleMove(data):\n    print(\"Got message:\", data)\n    room_id = data[\"channel\"]\n    emit(\"move\", data, room=room_id)\n@socketio.on(\"join\")\ndef syncGame(data):\n    # data being passed in",
+        "peekOfCode": "def home_page():\n    return jsonify({\"success\": \"HELLO CLASS\"})\n@socketio.on(\"move\")\ndef handleMove(data):\n    print(\"Got message:\", data)\n    room_id = data[\"channel\"]\n    emit(\"move\", data, room=room_id)\n@socketio.on(\"leave_room\")\ndef leaveRoom(data):\n    room_id = data[\"channel\"]",
         "detail": "server.application",
         "documentation": {}
     },
@@ -780,7 +780,16 @@
         "kind": 2,
         "importPath": "server.application",
         "description": "server.application",
-        "peekOfCode": "def handleMove(data):\n    print(\"Got message:\", data)\n    room_id = data[\"channel\"]\n    emit(\"move\", data, room=room_id)\n@socketio.on(\"join\")\ndef syncGame(data):\n    # data being passed in\n    # data{\"channel\": channel_id, \"player_name\": player trying to join}\n    # extracting channel id and player name\n    room_id = data[\"channel\"]",
+        "peekOfCode": "def handleMove(data):\n    print(\"Got message:\", data)\n    room_id = data[\"channel\"]\n    emit(\"move\", data, room=room_id)\n@socketio.on(\"leave_room\")\ndef leaveRoom(data):\n    room_id = data[\"channel\"]\n    user_id = data[\"player_name\"]\n    leave_room(room_id)\n    storage_db.leave_room(user_id, room_id)",
+        "detail": "server.application",
+        "documentation": {}
+    },
+    {
+        "label": "leaveRoom",
+        "kind": 2,
+        "importPath": "server.application",
+        "description": "server.application",
+        "peekOfCode": "def leaveRoom(data):\n    room_id = data[\"channel\"]\n    user_id = data[\"player_name\"]\n    leave_room(room_id)\n    storage_db.leave_room(user_id, room_id)\n@socketio.on(\"join\")\ndef syncGame(data):\n    # data being passed in\n    # data{\"channel\": channel_id, \"player_name\": player trying to join}\n    # extracting channel id and player name",
         "detail": "server.application",
         "documentation": {}
     },

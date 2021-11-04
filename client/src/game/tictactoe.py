@@ -22,6 +22,7 @@ class TicTacToe:
     
         self.username = player_name
         self.sio = socketio.Client()
+        self.turn = False # will be changed when the game starts
         self.setup()
         self.screen = screen
         self.rows = 3
@@ -31,7 +32,6 @@ class TicTacToe:
 
         self.round = 0
         self.id_text = Text(self.screen, 525, 0, self.id, 20)
-
 
     def createBoard(self):
         for i in range(self.rows):
@@ -66,14 +66,13 @@ class TicTacToe:
     
     def send_data(self):
         temp_board = []
-        
+            
         for i in range(self.rows):
             temp_board.append([])
             for j in range(self.cols):
                 temp_board[i].append(self.board[i][j].getValue())
 
         self.sio.emit('move', {'board': temp_board, "just_went": self.username, "channel": self.id})
-
 
     def normalize_data(self, raw_data):
         for i in range(self.rows):
@@ -88,8 +87,8 @@ class TicTacToe:
         @self.sio.on("disconnect")
         def disconnect():
             print('disconnected from server')
+            self.sio.emit('leave_room', {"player_name": self.username, "channel": self.id})
             self.sio.disconnect()
-            # sio.eio.disconnect(True)
 
         @self.sio.on("move")
         def move_received(data):
@@ -97,7 +96,6 @@ class TicTacToe:
             # print(game_state)
             print("data received")
             self.normalize_data(data["board"])
-            
             if data["just_went"] == self.username:
                 self.turn = False
             else:
@@ -139,3 +137,4 @@ class TicTacToe:
 
     def close_socket(self):
         self.sio.disconnect()
+    

@@ -20,6 +20,13 @@ def handleMove(data):
     room_id = data["channel"]
     emit("move", data, room=room_id)
 
+@socketio.on("leave_room")
+def leaveRoom(data):
+    room_id = data["channel"]
+    user_id = data["player_name"]
+    leave_room(room_id)
+    storage_db.leave_room(user_id, room_id)
+    
 @socketio.on("join")
 def syncGame(data):
     # data being passed in

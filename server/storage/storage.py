@@ -87,5 +87,9 @@ class Storage:
     def get_room(self, room_id):
         return self.rooms[room_id]
 
+    def leave_room(self, user_id, room_id):
+        return self.rooms[room_id].remove_player(user_id)
+        
+    
     def save(self):
         JsonData.save(self.users, self.file)
