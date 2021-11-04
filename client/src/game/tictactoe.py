@@ -1,4 +1,5 @@
 from buttons.text import Text
+from buttons.square import TicTacToeBox
 from server_config import SERVER_IP
 
 import socketio

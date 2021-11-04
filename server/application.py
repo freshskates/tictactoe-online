@@ -55,6 +55,5 @@ if __name__ == "__main__":
     # if production make sure to have host=0.0.0.0
     socketio.run(application, host='0.0.0.0', debug=True)
     
-    
     # if running locally make sure to not have that
     # socketio.run(application, debug=True)

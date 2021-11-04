@@ -105,6 +105,14 @@
         "documentation": {}
     },
     {
+        "label": "TicTacToeBox",
+        "importPath": "buttons.square",
+        "description": "buttons.square",
+        "isExtraImport": true,
+        "detail": "buttons.square",
+        "documentation": {}
+    },
+    {
         "label": "SERVER_IP",
         "importPath": "server_config",
         "description": "server_config",
