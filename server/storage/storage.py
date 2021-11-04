@@ -78,7 +78,7 @@ class Storage:
     def join_room(self, user, id):
         if not self.room_exists(id):
             return False
- 
+        
         joined_successfully = self.rooms[id].add_player(user)
         
         # joined_successfully can either be True or False
@@ -86,7 +86,7 @@ class Storage:
 
     def get_room(self, room_id):
         return self.rooms[room_id]
-
+        
     def leave_room(self, user_id, room_id):
         return self.rooms[room_id].remove_player(user_id)
         
